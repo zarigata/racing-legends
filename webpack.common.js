@@ -45,7 +45,7 @@ module.exports = {
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/racing-legends/'
+    publicPath: process.env.NODE_ENV === 'production' ? '/racing-legends/' : '/'
   },
   performance: {
     hints: false,
