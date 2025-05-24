@@ -61,7 +61,13 @@ export class Renderer {
     // Render the scene
     this.renderSky();
     this.renderTrack(track, car);
+    
+    // Ensure car is always rendered on top
+    this.ctx.save();
     this.renderCar(car);
+    this.ctx.restore();
+    
+    // Render HUD on top of everything
     this.renderHUD(car);
     
     this.lastFrameTime = now;
@@ -119,7 +125,7 @@ export class Renderer {
     
     // Find the segment the car is currently on
     const baseSegment = segments[0];
-    const cameraZ = car.z - this.camera.distance * track.getSegmentLength();
+    const cameraZ = car.z - this.camera.distance * 100; // Use fixed segment length of 100
     
     // Draw segments from back to front (painter's algorithm)
     for (let i = segments.length - 1; i >= 0; i--) {
@@ -227,73 +233,30 @@ export class Renderer {
   }
   
   private renderCar(car: Car): void {
-    // Draw car (more detailed than a simple triangle)
+    // Simple car representation (a rectangle)
+    const carWidth = 40;
+    const carHeight = 20;
+    
     this.ctx.save();
-    this.ctx.translate(this.width / 2, this.height * 0.7);
-    this.ctx.rotate(car.angle);
+    this.ctx.translate(this.width / 2, this.height * 0.7); // Position car at bottom center
+    this.ctx.rotate(car.angle - Math.PI / 2); // Rotate to match car's angle (0 points right, π/2 points down)
     
     // Car body
-    this.ctx.fillStyle = '#FF4136'; // Red
-    this.ctx.strokeStyle = '#000';
-    this.ctx.lineWidth = 2;
+    this.ctx.fillStyle = '#FF0000';
+    this.ctx.fillRect(-carWidth / 2, -carHeight / 2, carWidth, carHeight);
     
-    // Car body
-    this.ctx.beginPath();
-    this.ctx.moveTo(0, -20);
-    this.ctx.quadraticCurveTo(25, -15, 15, 20);
-    this.ctx.lineTo(-15, 20);
-    this.ctx.quadraticCurveTo(-25, -15, 0, -20);
-    this.ctx.closePath();
-    this.ctx.fill();
-    this.ctx.stroke();
-    
-    // Windshield
-    this.ctx.fillStyle = '#3498db';
-    this.ctx.beginPath();
-    this.ctx.moveTo(-10, -10);
-    this.ctx.quadraticCurveTo(0, -15, 10, -10);
-    this.ctx.lineTo(8, 5);
-    this.ctx.quadraticCurveTo(0, 0, -8, 5);
-    this.ctx.closePath();
-    this.ctx.fill();
-    this.ctx.stroke();
+    // Windshield (smaller rectangle on top of the car)
+    this.ctx.fillStyle = '#88CCFF';
+    this.ctx.fillRect(-carWidth / 3, -carHeight / 2, (carWidth / 3) * 2, carHeight / 2);
     
     // Wheels
-    this.ctx.fillStyle = '#333';
+    this.ctx.fillStyle = '#333333';
+    const wheelWidth = carWidth * 0.6;
+    const wheelHeight = carHeight * 0.3;
     
     // Front wheels
-    this.ctx.save();
-    this.ctx.translate(-12, 0);
-    this.ctx.beginPath();
-    this.ctx.ellipse(0, 15, 5, 8, 0, 0, Math.PI * 2);
-    this.ctx.fill();
-    this.ctx.stroke();
-    this.ctx.restore();
-    
-    this.ctx.save();
-    this.ctx.translate(12, 0);
-    this.ctx.beginPath();
-    this.ctx.ellipse(0, 15, 5, 8, 0, 0, Math.PI * 2);
-    this.ctx.fill();
-    this.ctx.stroke();
-    this.ctx.restore();
-    
-    // Rear wheels
-    this.ctx.save();
-    this.ctx.translate(-10, 0);
-    this.ctx.beginPath();
-    this.ctx.ellipse(0, -10, 4, 6, 0, 0, Math.PI * 2);
-    this.ctx.fill();
-    this.ctx.stroke();
-    this.ctx.restore();
-    
-    this.ctx.save();
-    this.ctx.translate(10, 0);
-    this.ctx.beginPath();
-    this.ctx.ellipse(0, -10, 4, 6, 0, 0, Math.PI * 2);
-    this.ctx.fill();
-    this.ctx.stroke();
-    this.ctx.restore();
+    this.ctx.fillRect(-wheelWidth/2, -carHeight*0.4, wheelWidth, wheelHeight);
+    this.ctx.fillRect(-wheelWidth/2, carHeight*0.4-wheelHeight, wheelWidth, wheelHeight);
     
     this.ctx.restore();
   }

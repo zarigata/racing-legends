@@ -89,16 +89,16 @@ export class Track {
         elevation = (rng() * 2 - 1) * difficulty * 100;
       }
       
-      // Update track position
+      // Update track position (X-Y plane with Z for depth)
       const angle = curve * (Math.PI / 180);
-      trackX += Math.sin(angle) * this.segmentLength;
-      trackZ += Math.cos(angle) * this.segmentLength;
+      trackX += Math.cos(angle) * this.segmentLength;
+      trackY += Math.sin(angle) * this.segmentLength;
       
       // Add segment
       this.segments.push({
         x: trackX,
-        y: trackY + elevation,
-        z: n * this.segmentLength,
+        y: trackY,
+        z: n * this.segmentLength + elevation,
         width: this.params.trackWidth,
         curve: curve,
         elevation: elevation,
@@ -126,22 +126,24 @@ export class Track {
   }
   
   public getStartPosition(): { x: number; y: number; angle: number } {
-    // Return a position slightly above the first segment to avoid clipping
+    // Start at the beginning of the track, slightly above the track
     return {
-      x: this.segments[10].x,
-      y: this.segments[10].y,
-      angle: 0
+      x: this.segments[0].x,
+      y: this.segments[0].y,
+      angle: Math.PI / 2 // Start facing up (positive Y direction)
     };
   }
   
-  // Get the length of each segment
-  public getSegmentLength(): number {
-    return this.segmentLength;
+  public getSegmentAt(z: number): TrackSegment {
+    const index = Math.floor(z / this.segmentLength) % this.segments.length;
+    return this.segments[Math.max(0, Math.min(index, this.segments.length - 1))];
   }
-  
-  // Get the total number of segments
-  public getSegmentCount(): number {
-    return this.segments.length;
+
+  public getSegmentIndex(z: number): number {
+    return Math.max(0, Math.min(
+      Math.floor(z / this.segmentLength) % this.segments.length,
+      this.segments.length - 1
+    ));
   }
   
   // Get visible segments from the car's perspective

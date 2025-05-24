@@ -20,11 +20,11 @@ export class Car {
   public turningSpeed: number;
   public width: number;
   
-  constructor(x: number, y: number, angle: number) {
+  constructor(x: number, y: number, angle: number = Math.PI / 2) {
     this.x = x;
     this.y = y;
     this.z = 0; // Initialize z position
-    this.angle = angle;
+    this.angle = angle; // 0 points to right, Math.PI/2 points down
     this.speed = 0;
     this.maxSpeed = CAR.MAX_SPEED;
     this.acceleration = CAR.ACCELERATION;
@@ -58,13 +58,12 @@ export class Car {
       }
     }
     
-    // Apply movement
-    this.x += Math.sin(this.angle) * this.speed;
-    this.y -= Math.cos(this.angle) * this.speed;
+    // Apply movement (X increases to the right, Y increases downward)
+    this.x += Math.cos(this.angle) * this.speed;
+    this.y += Math.sin(this.angle) * this.speed;
     
     // Keep angle between 0 and 2*PI
-    if (this.angle < 0) this.angle += Math.PI * 2;
-    if (this.angle > Math.PI * 2) this.angle -= Math.PI * 2;
+    this.angle = ((this.angle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
   }
   
   // Reset car to starting position
