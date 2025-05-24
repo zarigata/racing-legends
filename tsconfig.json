@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "es6",
+    "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
     "esModuleInterop": true,
@@ -11,13 +11,17 @@
     "sourceMap": true,
     "baseUrl": ".",
     "paths": {
-      "*": ["node_modules/*", "src/js/*"]
+      "@/*": ["src/js/*"]
     },
     "typeRoots": [
       "./node_modules/@types",
       "./src/types"
-    ]
+    ],
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }

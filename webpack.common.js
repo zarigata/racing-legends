@@ -21,7 +21,8 @@ module.exports = {
         use: {
           loader: 'ts-loader',
           options: {
-            configFile: 'tsconfig.app.json'
+            configFile: 'tsconfig.json',
+            transpileOnly: true
           }
         },
         exclude: /node_modules/,
@@ -35,7 +36,10 @@ module.exports = {
       '@': path.resolve(__dirname, 'src/js')
     },
     fallback: {
-      'path': require.resolve('path-browserify')
+      'path': require.resolve('path-browserify'),
+      'fs': false,
+      'path': false,
+      'os': false
     }
   },
   output: {
