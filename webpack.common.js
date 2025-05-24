@@ -7,6 +7,9 @@ module.exports = {
   entry: {
     app: './src/js/main.ts',
   },
+  output: {
+    publicPath: '/racing-legends/',
+  },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
