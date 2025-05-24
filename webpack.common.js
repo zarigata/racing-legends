@@ -17,6 +17,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         { from: 'public/404.html', to: '404.html' },
+        { from: 'public/index.html', to: '../index.html' },
         { from: 'public/CNAME', to: 'CNAME' },
         { from: 'public/.nojekyll', to: '.nojekyll', toType: 'file' }
       ]
