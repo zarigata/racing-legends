@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
+    <script>
+        // Get the path from the URL and redirect to the game
+        const path = window.location.pathname;
+        window.location.href = '/racing-legends' + (path.endsWith('/') ? '' : '/') + 'index.html';
+    </script>
+    <noscript>
+        <meta http-equiv="refresh" content="0; url=/racing-legends/">
+    </noscript>
+</head>
+<body>
+    <p>Redirecting to the game... <a href="/racing-legends/">Click here if not redirected</a></p>
+</body>
+</html>

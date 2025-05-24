@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -12,6 +13,13 @@ module.exports = {
       title: 'Racing Legends',
       template: './src/index.html',
       inject: 'body',
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: 'public/404.html', to: '404.html' },
+        { from: 'public/CNAME', to: 'CNAME' },
+        { from: 'public/.nojekyll', to: '.nojekyll' }
+      ]
     }),
   ],
   module: {
@@ -45,7 +53,7 @@ module.exports = {
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: process.env.NODE_ENV === 'production' ? '/racing-legends/' : '/'
+    publicPath: '/'
   },
   performance: {
     hints: false,
