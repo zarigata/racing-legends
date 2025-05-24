@@ -18,7 +18,7 @@ module.exports = {
       patterns: [
         { from: 'public/404.html', to: '404.html' },
         { from: 'public/CNAME', to: 'CNAME' },
-        { from: 'public/.nojekyll', to: '.nojekyll' }
+        { from: 'public/.nojekyll', to: '.nojekyll', toType: 'file' }
       ]
     }),
   ],
