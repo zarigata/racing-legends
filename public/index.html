@@ -4,14 +4,17 @@
     <meta charset="utf-8">
     <title>Racing Legends - Redirecting...</title>
     <script>
-        // Redirect to the game
-        window.location.href = '/racing-legends/index.html';
+        // Check if we're already on the game page to prevent loops
+        if (!window.location.pathname.includes('racing-legends')) {
+            // Use full URL for redirection
+            window.location.href = window.location.origin + '/racing-legends/index.html';
+        }
     </script>
     <noscript>
-        <meta http-equiv="refresh" content="0; url=/racing-legends/index.html">
+        <meta http-equiv="refresh" content="0; url=./racing-legends/index.html">
     </noscript>
 </head>
 <body>
-    <p>Redirecting to Racing Legends... <a href="/racing-legends/index.html">Click here if not redirected</a></p>
+    <p>Redirecting to Racing Legends... <a href="./racing-legends/index.html">Click here if not redirected</a></p>
 </body>
 </html>
